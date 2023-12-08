@@ -20,6 +20,14 @@ defmodule PartsTest do
   @numbers_and_coordinates Parts.numbers_and_coordinates(@schematic)
   @aggregate Parts.aggregate(@numbers_and_coordinates)
 
+  test "467 is adjacent" do
+    assert(Parts.adjacent?(@symbols, 2, 0))
+  end
+
+  test "144 is not adjacent" do
+    assert(not Parts.adjacent?(@symbols, 5, 0))
+  end
+
   test "symbols_coordinates_from finds 6 symbols" do
     assert(Enum.count(@symbols) == 6)
   end
@@ -36,6 +44,22 @@ defmodule PartsTest do
     assert(Parts.bottom_right?(@symbols, 2, 0))
   end
 
+  test "top right 4, 6 contains symbol" do
+    assert(Parts.top_right?(@symbols, 4, 6))
+  end
+
+  test "top 3, 9 contains symbol" do
+    assert(Parts.top?(@symbols, 3, 9))
+  end
+
+  test "bottom 6, 2 contains symbol" do
+    assert(Parts.bottom?(@symbols, 6, 2))
+  end
+
+  test "bottom left 6,6 contains symbol" do
+    assert(Parts.bottom_left?(@symbols, 6, 7))
+  end
+
   test "numbers_and_coordinates fifth number is 6" do
     assert(elem(List.first(@numbers_and_coordinates), 0) == "4")
   end
@@ -46,5 +70,9 @@ defmodule PartsTest do
 
   test "aggregate coordinate" do
     assert(elem(List.first(@aggregate), 1) == [{0,0}, {1,0}, {2,0}])
+  end
+
+  test "sum" do
+    assert(Parts.sum_of_adjacent(@aggregate, @symbols) == 4361)
   end
 end
