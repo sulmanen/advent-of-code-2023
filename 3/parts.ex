@@ -1,6 +1,7 @@
 defmodule Parts do
   @numbers ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
   @non_symbol Enum.concat(["."], @numbers)
+  @star "*"
 
   def top?(symbols, x, y) do Enum.member?(symbols, {x, y - 1}) end
 
@@ -40,15 +41,23 @@ defmodule Parts do
     |> List.flatten
   end
 
-  def numbers_and_coordinates(schematic) do
+  def coordinates_for(schematic, chars) do
     Enum.with_index(String.split(schematic, "\n"))
     |> Enum.map(fn(line) ->
       Enum.with_index(String.graphemes(elem(line, 0)))
-      |> Enum.map(fn(c) -> if Enum.member?(@numbers, elem(c, 0)), do: {elem(c, 0), elem(c, 1), elem(line, 1)} end)
+      |> Enum.map(fn(c) -> if Enum.member?(chars, elem(c, 0)), do: {elem(c, 0), elem(c, 1), elem(line, 1)} end)
       |> List.flatten
       |> Enum.filter(fn(e) -> not is_nil(e) end)
     end)
     |> List.flatten
+  end
+
+  def numbers_and_coordinates(schematic) do
+    coordinates_for(schematic, @numbers)
+  end
+
+  def coordinates_for_stars(schematic) do
+    coordinates_for(schematic, [@star])
   end
 
   def aggregate(numbers) do
