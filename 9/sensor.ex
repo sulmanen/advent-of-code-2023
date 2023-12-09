@@ -24,4 +24,8 @@ defmodule Sensor do
   def predict(tree) do
     Enum.reduce(tree, 0, fn(tree_part, acc) -> List.last(tree_part) + acc end)
   end
+
+  def predict_back(tree) do
+    Enum.reduce(Enum.reverse(tree), 0, fn(tree_part, acc) -> List.first(tree_part) - acc end)
+  end
 end
