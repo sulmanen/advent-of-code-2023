@@ -18,8 +18,6 @@ defmodule EscapeTest do
 
   @start start(@index)
 
-  @possible possible(@matrix, @start)
-
   test "matrix" do
     assert(@matrix == [["7", "-", "F", "7", "-"], [".", "F", "J", "|", "7"], ["S", "J", "L", "L", "7"], ["|", "F", "-", "-", "J"], ["L", "J", ".", "L", "J"]])
   end
@@ -38,11 +36,19 @@ defmodule EscapeTest do
     assert(@start == {0, 2})
   end
 
-  test "possible" do
-    assert(@possible == [])
+  test "north" do
+    assert(north(@matrix, @start) == {".", {0, 1}})
   end
 
-  test "north" do
-    assert(north(@index, @start) == "")
+  test "south" do
+    assert(south(@matrix, @start) == {"|", {2, 3}})
+  end
+
+  test "east" do
+    assert(east(@matrix, @start) == {"J", {1, 2}})
+  end
+
+  test "west" do
+    assert(west(@matrix, @start, "S") == nil)
   end
 end
